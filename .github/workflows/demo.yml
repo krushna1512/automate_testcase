@@ -1,0 +1,30 @@
+name: PR Comment Trigger
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  process_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Process Comment
+        id: process_comment
+        run: |
+          # Check if the event is a pull request comment
+          if [ "${{ github.event.issue.pull_request }}" = "null" ]; then
+            echo "Not a pull request comment. Skipping..."
+            exit 0
+          fi
+
+          # Extract the comment body and check for the specific comment text
+          COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
+          if [[ "$COMMENT_BODY" == *"specific comment text"* ]]; then
+            echo "Triggering the specific action for the comment..."
+            # Add your action logic here
+          else
+            echo "Not the specific comment. Skipping..."
+          fi
