@@ -22,7 +22,7 @@ jobs:
 
           # Extract the comment body and check for the specific comment text
           COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
-          if [[ "$COMMENT_BODY" == *"specific comment text"* ]]; then
+          if [[ "$COMMENT_BODY" == *"start test"* ]]; then
             echo "Triggering the specific action for the comment..."
             # Add your action logic here
           else
