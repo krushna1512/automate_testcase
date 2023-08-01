@@ -22,12 +22,13 @@ jobs:
             # Extract the comment body and check for the specific comment text
             COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
             if [[ "$COMMENT_BODY" == "start test"* ]]; then
-              echo "Triggering the specific action for the comment..."
-              # Add your action logic here
+              echo "Test cases running"
+              # Add your action logic here to run the test cases
+              # For example, you can use a test runner like pytest, jest, etc.
             else
               echo "Not the specific comment. Skipping..."
             fi
-          else
+          else 
             # This is not a pull request comment
             echo "Not a pull request comment. Skipping..."
           fi
