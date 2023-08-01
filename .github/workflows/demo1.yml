@@ -29,7 +29,20 @@ jobs:
               # Read the pull request description
               PR_DESCRIPTION=$(cat "./pull_request_description.md")
 
-              # ... (rest of the code remains the same)
+              # Iterate through the checkpoints in the description
+              # Assuming checkpoints are marked with the pattern "- [ ] [x] Checkpoint name"
+              while IFS= read -r line; do
+                if [[ $line == "- [ ] [x] "* ]]; then
+                  # Get the checkpoint name
+                  CHECKPOINT_NAME=$(echo "$line" | sed -e 's/- \[ \] \[x\] //')
+                  echo "Running test case for checkpoint: $CHECKPOINT_NAME"
+                  # Run the specific test case for the checkpoint name
+                  # In this example, we will run the 'add' function test case
+                  python -m unittest test_module.TestAdd.test_add_function
+                  # Mark the checkpoint as completed by updating the description
+                  sed -i "s/- \[ \] \[x\] $CHECKPOINT_NAME/- \[x\] \[ \] $CHECKPOINT_NAME/" "./pull_request_description.md"
+                fi
+              done <<< "$PR_DESCRIPTION"
             else
               echo "Not the specific comment. Skipping..."
             fi
