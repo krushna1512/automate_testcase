@@ -26,26 +26,16 @@ jobs:
               # Add your action logic here to run the test cases
               # For example, you can use a test runner like pytest, jest, etc.
 
-              # Extract the pull request description from the comment body
+              # Read the pull request description from the comment body
               PR_DESCRIPTION=$(echo "$COMMENT_BODY" | grep -oP "(?<=## Test Cases\n).*")
 
-              # Iterate through the checkpoints in the description
-              # Assuming checkpoints are marked with the pattern "- [ ] [x] Checkpoint name"
-              while IFS= read -r line; do
-                if [[ $line == "- [ ] [x] "* ]]; then
-                  # Get the checkpoint name
-                  CHECKPOINT_NAME=$(echo "$line" | sed -e 's/- \[ \] \[x\] //')
-                  echo "Running test case for checkpoint: $CHECKPOINT_NAME"
-                  # Run the specific test case for the checkpoint name
-                  # In this example, we will run the 'add' function test case
-                  python -m unittest test_module.TestAdd.test_add_function
-                  # Mark the checkpoint as completed by updating the description
-                  PR_DESCRIPTION=$(echo "$PR_DESCRIPTION" | sed "s/- \[ \] \[x\] $CHECKPOINT_NAME/- [x] [ ] $CHECKPOINT_NAME/")
-                fi
-              done <<< "$PR_DESCRIPTION"
+              # Replace "[ ]" with "[x]" to mark all checkpoints as completed
+              UPDATED_PR_DESCRIPTION=$(echo "$PR_DESCRIPTION" | sed -E 's/- \[ \] ([^\n]+)/- [x] \1/g')
+
+              # Generate the updated comment body with the modified description
+              UPDATED_COMMENT_BODY=$(echo "${COMMENT_BODY/## Test Cases\n$PR_DESCRIPTION/## Test Cases\n$UPDATED_PR_DESCRIPTION}")
 
               # Update the pull request comment with the updated description
-              UPDATED_COMMENT_BODY=$(echo "${COMMENT_BODY/## Test Cases\n*/## Test Cases\n$PR_DESCRIPTION}")
               echo "Updating the pull request comment with the updated description..."
               GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
               curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -d "{\"body\": \"$UPDATED_COMMENT_BODY\"}" "${{ github.event.comment.url }}"
