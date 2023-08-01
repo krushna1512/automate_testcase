@@ -15,16 +15,19 @@ jobs:
         id: process_comment
         run: |
           # Check if the event is a pull request comment
-          if [ "${{ github.event.issue.pull_request }}" = "null" ]; then
-            echo "Not a pull request comment. Skipping..."
-            exit 0
-          fi
+          if [ "${{ github.event.issue.pull_request }}" != "null" ]; then
+            # This is a pull request comment
+            echo "This is a pull request comment."
 
-          # Extract the comment body and check for the specific comment text
-          COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
-          if [[ "$COMMENT_BODY" == *"start test"* ]]; then
-            echo "Triggering the specific action for the comment..."
-            # Add your action logic here
+            # Extract the comment body and check for the specific comment text
+            COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
+            if [[ "$COMMENT_BODY" == "start test"* ]]; then
+              echo "Triggering the specific action for the comment..."
+              # Add your action logic here
+            else
+              echo "Not the specific comment. Skipping..."
+            fi
           else
-            echo "Not the specific comment. Skipping..."
+            # This is not a pull request comment
+            echo "Not a pull request comment. Skipping..."
           fi
