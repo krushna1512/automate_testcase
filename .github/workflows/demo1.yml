@@ -37,8 +37,8 @@ jobs:
 
               # Update the pull request comment with the updated description
               echo "Updating the pull request comment with the updated description..."
-              GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-              curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -d "{\"body\": \"$UPDATED_COMMENT_BODY\"}" "${{ github.event.comment.url }}"
+              TOKEN="${{ secrets.TOKEN }}"
+              curl -X PATCH -H "Authorization: token $TOKEN" -H "Content-Type: application/json" -d "{\"body\": \"$UPDATED_COMMENT_BODY\"}" "${{ github.event.comment.url }}"
             else
               echo "Not the specific comment. Skipping..."
             fi
