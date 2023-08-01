@@ -26,8 +26,8 @@ jobs:
               # Add your action logic here to run the test cases
               # For example, you can use a test runner like pytest, jest, etc.
 
-              # Read the pull request description
-              PR_DESCRIPTION=$(cat "./pull_request_description.md")
+              # Extract the pull request description from the comment body
+              PR_DESCRIPTION=$(echo "$COMMENT_BODY" | grep -oP "(?<=## Test Cases\n).*")
 
               # Iterate through the checkpoints in the description
               # Assuming checkpoints are marked with the pattern "- [ ] [x] Checkpoint name"
@@ -40,9 +40,15 @@ jobs:
                   # In this example, we will run the 'add' function test case
                   python -m unittest test_module.TestAdd.test_add_function
                   # Mark the checkpoint as completed by updating the description
-                  sed -i "s/- \[ \] \[x\] $CHECKPOINT_NAME/- \[x\] \[ \] $CHECKPOINT_NAME/" "./pull_request_description.md"
+                  PR_DESCRIPTION=$(echo "$PR_DESCRIPTION" | sed "s/- \[ \] \[x\] $CHECKPOINT_NAME/- [x] [ ] $CHECKPOINT_NAME/")
                 fi
               done <<< "$PR_DESCRIPTION"
+
+              # Update the pull request comment with the updated description
+              UPDATED_COMMENT_BODY=$(echo "${COMMENT_BODY/## Test Cases\n*/## Test Cases\n$PR_DESCRIPTION}")
+              echo "Updating the pull request comment with the updated description..."
+              GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+              curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -d "{\"body\": \"$UPDATED_COMMENT_BODY\"}" "${{ github.event.comment.url }}"
             else
               echo "Not the specific comment. Skipping..."
             fi
