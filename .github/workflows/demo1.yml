@@ -1,0 +1,116 @@
+name: Test Suite Executor
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  execute-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 1: Parse the comment to extract checkboxes
+      - name: Parse comment
+        id: parse_comment
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the body of the new comment
+            const comment = context.payload.comment.body;
+
+            // Regular expression to match checkboxes in the comment
+            const checkboxPattern = /- \[ \] (.+)/g;
+            const checkboxes = [];
+            let match;
+            while ((match = checkboxPattern.exec(comment)) !== null) {
+              checkboxes.push(match[1]);
+            }
+            return { checkboxes };
+
+      # Step 2: Check if the comment contains the trigger keyword
+      - name: Check for trigger keyword
+        id: check_trigger_keyword
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const triggerKeyword = 'run-tests';
+            const comment = context.payload.comment.body.toLowerCase();
+            const triggerMatch = comment.includes(triggerKeyword.toLowerCase());
+            return { triggerMatch };
+
+      # Step 3: Only proceed if the trigger keyword is present
+      - name: Proceed with execution
+        if: steps.check_trigger_keyword.outputs.triggerMatch
+        run: |
+          # Replace this line with the actual command to execute your tests
+          echo "Running Test Suite..."
+          # Example: npm test
+
+      # Step 4: Update the comment with checked checkboxes
+      - name: Update checkboxes in comment
+        if: steps.check_trigger_keyword.outputs.triggerMatch
+        id: update_checkboxes
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the extracted checkboxes from Step 1
+            const checkboxes = ${{ toJSON(steps.parse_comment.outputs.checkboxes) }};
+
+            // Regular expression to match checkboxes in the original comment
+            const checkboxPattern = /- \[ \] (.+)/g;
+            const checkedBoxes = [];
+            let newComment = context.payload.comment.body;
+            let match;
+            while ((match = checkboxPattern.exec(newComment)) !== null) {
+              const checkbox = match[1];
+              if (checkboxes.includes(checkbox)) {
+                checkedBoxes.push(checkbox);
+                newComment = newComment.replace(match[0], `- [x] ${checkbox}`);
+              }
+            }
+
+            // Update the comment with checked checkboxes
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              body: newComment
+            });
+
+            return { checkedBoxes };
+
+      # Step 5: Comment with executed tests
+      - name: Comment with executed tests
+        if: steps.check_trigger_keyword.outputs.triggerMatch && steps.update_checkboxes.outputs.checkedBoxes.length > 0
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the checkboxes that were executed from Step 4
+            const checkedBoxes = ${{ toJSON(steps.update_checkboxes.outputs.checkedBoxes) }};
+
+            // Create a comment with the executed test cases
+            const commentText = `Tests executed for: ${checkedBoxes.join(', ')}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentText
+            });
+            
+            // Mark checkboxes in the final comment as completed
+            let finalComment = context.payload.comment.body;
+            for (const checkbox of checkedBoxes) {
+              finalComment = finalComment.replace(`- [x] ${checkbox}`, `- [x] ${checkbox}`);
+            }
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              body: finalComment
+            });
