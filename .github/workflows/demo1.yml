@@ -35,10 +35,10 @@ jobs:
               # Generate the updated comment body with the modified description
               UPDATED_COMMENT_BODY=$(echo "${COMMENT_BODY/## Test Cases\n$PR_DESCRIPTION/## Test Cases\n$UPDATED_PR_DESCRIPTION}")
 
-              # Update the pull request comment with the updated description
+              # Update the pull request comment with the updated description using GitHub CLI
               echo "Updating the pull request comment with the updated description..."
               TOKEN="${{ secrets.TOKEN }}"
-              curl -X PATCH -H "Authorization: token $TOKEN" -H "Content-Type: application/json" -d "{\"body\": \"$UPDATED_COMMENT_BODY\"}" "${{ github.event.comment.url }}"
+              echo "$UPDATED_COMMENT_BODY" | gh issue comment "$GITHUB_EVENT_PATH" -R "$GITHUB_REPOSITORY" --token "$TOKEN" --edit
             else
               echo "Not the specific comment. Skipping..."
             fi
