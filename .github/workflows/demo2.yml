@@ -39,6 +39,23 @@ jobs:
                 for element in "${ARRAY[@]}"; do
                   echo "$element"
                 done
+                
+                # Count the number of elements in the array
+                ARRAY_LENGTH=${#ARRAY[@]}
+                echo "Number of elements in the array: $ARRAY_LENGTH"
+                
+                # Define an array of letters
+                LETTERS=("a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")
+
+                # Loop through the array and assign letters 'a', 'b', 'c', 'd', etc.
+                for ((i=0; i<ARRAY_LENGTH; i++)); do
+                  if ((i < 26)); then
+                    echo "Element ${ARRAY[i]} is assigned letter ${LETTERS[i]}"
+                  else
+                    echo "Element ${ARRAY[i]} is assigned letter ${LETTERS[(i%26)]}${LETTERS[(i/26)]}"
+                  fi
+                done
+
               else
                 echo "Array not found in the pull request description."
               fi
