@@ -1,4 +1,4 @@
-name: PR Comment Trigger
+name: demo
 
 on:
   issue_comment:
@@ -23,22 +23,25 @@ jobs:
             COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
             if [[ "$COMMENT_BODY" == "start test"* ]]; then
               echo "Test cases running"
-              # Add your action logic here to run the test cases
-              # For example, you can use a test runner like pytest, jest, etc.
 
-              # Read the pull request description from the comment body
-              PR_DESCRIPTION=$(echo "$COMMENT_BODY" | grep -oP "(?<=## Test Cases\n).*")
+              # Extract the pull request number from the comment
+              PR_NUMBER=$(echo "${{ github.event.issue.url }}" | awk -F '/' '{print $NF}')
 
-              # Replace "[ ]" with "[x]" to mark all checkpoints as completed
-              UPDATED_PR_DESCRIPTION=$(echo "$PR_DESCRIPTION" | sed -E 's/- \[ \] ([^\n]+)/- [x] \1/g')
+              # Fetch the pull request description
+              PR_DESCRIPTION=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | jq -r '.body')
 
-              # Generate the updated comment body with the modified description
-              UPDATED_COMMENT_BODY=$(echo "${COMMENT_BODY/## Test Cases\n$PR_DESCRIPTION/## Test Cases\n$UPDATED_PR_DESCRIPTION}")
-
-              # Update the pull request comment with the updated description using GitHub CLI
-              echo "Updating the pull request comment with the updated description..."
-              TOKEN="${{ secrets.TOKEN }}"
-              echo "$UPDATED_COMMENT_BODY" | gh issue comment "$GITHUB_EVENT_PATH" -R "$GITHUB_REPOSITORY" --token "$TOKEN" --edit
+              # Find the array in the pull request description using regex
+              if [[ "$PR_DESCRIPTION" =~ \[(.*)\] ]]; then
+                # Extract the array content and split it into individual elements
+                IFS=',' read -ra ARRAY <<< "${BASH_REMATCH[1]}"
+                
+                # Loop through the elements and print them
+                for element in "${ARRAY[@]}"; do
+                  echo "$element"
+                done
+              else
+                echo "Array not found in the pull request description."
+              fi
             else
               echo "Not the specific comment. Skipping..."
             fi
