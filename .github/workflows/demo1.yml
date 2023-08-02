@@ -1,4 +1,4 @@
-name: demo
+name: 2nd Half
 
 on:
   issue_comment:
