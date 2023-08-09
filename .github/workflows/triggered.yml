@@ -2,7 +2,7 @@ name: Print Numbers Workflow
 
 on:
   workflow_run:
-    workflows: ["name_of_triggering_workflow"]  # Replace with the actual name of the triggering workflow
+    workflows: ["4th Part"]  # Replace with the actual name of the triggering workflow
     types:
       - completed
 
