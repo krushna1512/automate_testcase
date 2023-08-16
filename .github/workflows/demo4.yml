@@ -11,6 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Process Comment
         id: process_comment
         run: |
@@ -38,11 +46,11 @@ jobs:
                 echo "Array extracted from comment: ${ARRAY[@]}"
 
                 # Set the array as an environment variable for the next step
-                echo "COMMENT_ARRAY=${ARRAY[@]}" >> $GITHUB_ENV
+                echo "COMMENT_ARRAY=${ARRAY[*]}" >> $GITHUB_ENV  # Use [*] to join array elements
 
                 # Debug output to verify parameters
                 echo "Parameters for second script:"
-                echo "COMMENT_ARRAY=${COMMENT_ARRAY[@]}"
+                echo "COMMENT_ARRAY=${COMMENT_ARRAY[*]}"
 
                 # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
                 curl -X POST \
