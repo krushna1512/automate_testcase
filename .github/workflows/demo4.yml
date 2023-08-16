@@ -24,9 +24,9 @@ jobs:
             if [[ "$COMMENT_BODY" == *"start test"* ]]; then
               echo "This is a pull request comment."
 
-              # Extract the parameter from the comment body
-              PARAMETER=$(echo "$COMMENT_BODY" | sed -n 's/.*\[\(.*\)\].*/\1/p')
-
+              # Extract the parameter from the comment body using jq
+              PARAMETER=$(echo "$COMMENT_BODY" | jq -r 'match("\\[(.*)\\]"; "g").captures[0].string')
+              
               if [ -n "$PARAMETER" ]; then
                 echo "Parameter extracted from comment: $PARAMETER"
                 
