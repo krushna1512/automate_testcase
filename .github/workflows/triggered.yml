@@ -14,9 +14,9 @@ jobs:
       - name: Debug Output (Received Parameter)
         run: |
           echo "Received Parameter:"
-          echo "COMMENT_PARAMETER=${COMMENT_PARAMETER}"
+          echo "COMMENT_PARAMETER=${{ github.event.workflow_run.inputs.param1 }}"
 
       - name: Print Parameter
         run: |
           echo "Received Parameter in Print Numbers step:"
-          echo "COMMENT_PARAMETER=${COMMENT_PARAMETER}"
+          echo "COMMENT_PARAMETER=${{ github.event.workflow_run.inputs.param1 }}"
