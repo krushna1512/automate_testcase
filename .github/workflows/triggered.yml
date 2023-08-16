@@ -13,4 +13,13 @@ jobs:
     steps:
       - name: Debug Output (Received Parameter)
         run: |
-          echo "Received Parameter in Print Numbers step: ${{ github.event.inputs.param1 }}"
+          PARAMETER="${{ github.event.inputs.param1 }}"
+          echo "Received Parameter in Print Numbers step: $PARAMETER"
+
+          # Split the parameter string into an array
+          IFS=', ' read -r -a PARAMETER_ARRAY <<< "$PARAMETER"
+
+          # Loop through the array and print each element
+          for element in "${PARAMETER_ARRAY[@]}"; do
+            echo "Element: $element"
+          done
