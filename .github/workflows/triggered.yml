@@ -2,7 +2,7 @@ name: PrintNumbersWorkflow
 
 on:
   workflow_run:
-    workflows: ["4th Part"]
+    workflows: ["5th Part"]
     types:
       - completed
 
