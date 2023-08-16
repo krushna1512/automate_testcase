@@ -26,8 +26,9 @@ jobs:
         run: |
           # Get the array from the environment variable set by the first script
           COMMENT_ARRAY=($COMMENT_ARRAY)
-
+      
           # Print numbers based on the array length
           for element in "${COMMENT_ARRAY[@]}"; do
             echo "$element"
           done
+
