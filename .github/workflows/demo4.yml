@@ -8,9 +8,6 @@ jobs:
   process_comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -27,42 +24,28 @@ jobs:
             # This is a pull request comment
             echo "This is a pull request comment."
 
-            # Extract the comment body and check for the specific comment text
-            COMMENT_BODY=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
-            if [[ "$COMMENT_BODY" == "start test"* ]]; then
-              echo "Test cases running"
+            # Extract the pull request number from the comment
+            PR_NUMBER=$(echo "${{ github.event.issue.url }}" | awk -F '/' '{print $NF}')
 
-              # Extract the pull request number from the comment
-              PR_NUMBER=$(echo "${{ github.event.issue.url }}" | awk -F '/' '{print $NF}')
+            # Fetch the pull request description
+            PR_DESCRIPTION=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | jq -r '.body')
 
-              # Fetch the pull request description
-              PR_DESCRIPTION=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | jq -r '.body')
+            # Find the parameter in the pull request description using regex
+            if [[ "$PR_DESCRIPTION" =~ \[(.*)\] ]]; then
+              PARAMETER="${BASH_REMATCH[1]}"
+              echo "Parameter extracted from comment: $PARAMETER"
+              
+              # Set the parameter as an environment variable for the next step
+              echo "COMMENT_PARAMETER=$PARAMETER" >> $GITHUB_ENV
 
-              # Find the array in the pull request description using regex
-              if [[ "$PR_DESCRIPTION" =~ \[(.*)\] ]]; then
-                # Extract the array content and split it into individual elements
-                IFS=',' read -ra ARRAY <<< "${BASH_REMATCH[1]}"
-
-                echo "Array extracted from comment: ${ARRAY[@]}"
-
-                # Set the array as an environment variable for the next step
-                echo "COMMENT_ARRAY=${ARRAY[*]}" >> $GITHUB_ENV  # Use [*] to join array elements
-
-                # Debug output to verify parameters
-                echo "Parameters for second script:"
-                echo "COMMENT_ARRAY=${COMMENT_ARRAY[*]}"
-
-                # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
-                curl -X POST \
-                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  -H "Accept: application/vnd.github.v3+json" \
-                  "https://api.github.com/repos/${{ github.repository }}/actions/workflows/print_numbers.yml/dispatches" \
-                  -d '{"ref": "main"}'
-              else
-                echo "Array not found in the pull request description."
-              fi
+              # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
+              curl -X POST \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/workflows/print_numbers.yml/dispatches" \
+                -d '{"ref": "main"}'
             else
-              echo "Not the specific comment. Skipping..."
+              echo "Parameter not found in the pull request description."
             fi
           else 
             # This is not a pull request comment
