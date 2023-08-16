@@ -2,7 +2,7 @@ name: PrintNumbersWorkflow
 
 on:
   workflow_run:
-    workflows: ["5th Part"]
+    workflows: ["4th Part"]
     types:
       - completed
 
@@ -11,32 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug Output (Received Parameters)
+      - name: Debug Output (Received Parameter)
         run: |
-          echo "Received Parameters:"
-          echo "COMMENT_ARRAY=${COMMENT_ARRAY[@]}"
+          echo "Received Parameter:"
+          echo "COMMENT_PARAMETER=${COMMENT_PARAMETER}"
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Print Numbers
+      - name: Print Parameter
         run: |
-          # Get the array from the environment variable set by the first script
-          COMMENT_ARRAY=($COMMENT_ARRAY)
-
-          # Debug output to verify parameters
-          echo "Received Parameters in Print Numbers step:"
-          echo "COMMENT_ARRAY=${COMMENT_ARRAY[@]}"
-
-          # Print numbers based on the array length
-          for element in "${COMMENT_ARRAY[@]}"; do
-            echo "$element"
-          done
+          echo "Received Parameter in Print Numbers step:"
+          echo "COMMENT_PARAMETER=${COMMENT_PARAMETER}"
