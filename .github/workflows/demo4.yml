@@ -24,13 +24,16 @@ jobs:
             if [[ "$COMMENT_BODY" == *"start test"* ]]; then
               echo "This is a pull request comment."
 
-              # Extract the parameter from the comment body
-              PARAMETER=$(echo "$COMMENT_BODY" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+              # Extract the parameter from the PR description
+              PR_NUMBER=$(echo "${{ github.event.issue.url }}" | awk -F '/' '{print $NF}')
+              PR_DESCRIPTION=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | jq -r '.body')
+
+              PARAMETER=$(echo "$PR_DESCRIPTION" | sed -n 's/.*\[\(.*\)\].*/\1/p')
               
               if [ -n "$PARAMETER" ]; then
                 # Remove spaces and replace commas with spaces
                 PARAMETER=$(echo "$PARAMETER" | tr -d ' ' | tr ',' ' ')
-                echo "Parameter extracted from comment: $PARAMETER"
+                echo "Parameter extracted from PR description: $PARAMETER"
                 
                 # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
                 curl -X POST \
@@ -40,7 +43,7 @@ jobs:
                   "https://api.github.com/repos/${{ github.repository }}/actions/workflows/triggered.yml/dispatches" \
                   -d "{\"ref\": \"main\", \"inputs\": {\"param1\": \"$PARAMETER\"}}"
               else
-                echo "Parameter not found in the comment."
+                echo "Parameter not found in the PR description."
               fi
             else
               echo "Not the specific comment. Skipping..."
