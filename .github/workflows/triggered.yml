@@ -1,20 +1,10 @@
 name: PrintNumbersWorkflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      param1:
-        description: 'Parameter 1'
-        required: true
-      param2:
-        description: 'Parameter 2'
-        required: true
-      param3:
-        description: 'Parameter 3'
-        required: true
-      param4:
-        description: 'Parameter 4'
-        required: true
+  workflow_run:
+    workflows: ["5th Part"]
+    types:
+      - completed
 
 jobs:
   print_numbers:
@@ -23,6 +13,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Print Numbers
         run: |
