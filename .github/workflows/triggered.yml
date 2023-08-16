@@ -13,10 +13,4 @@ jobs:
     steps:
       - name: Debug Output (Received Parameter)
         run: |
-          echo "Received Workflow Run Event Payload:"
-          echo "${{ toJson(github.event.workflow_run) }}"
-
-      - name: Print Parameter
-        run: |
-          PARAMETER="${{ github.event.workflow_run.inputs.param1 }}"
-          echo "Received Parameter in Print Numbers step: $PARAMETER"
+          echo "Received Parameter in Print Numbers step: ${{ github.event.inputs.param1 }}"
