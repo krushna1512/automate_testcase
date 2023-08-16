@@ -24,10 +24,12 @@ jobs:
             if [[ "$COMMENT_BODY" == *"start test"* ]]; then
               echo "This is a pull request comment."
 
-              # Extract the parameter from the comment body using jq
-              PARAMETER=$(echo "$COMMENT_BODY" | jq -r 'match("\\[(.*)\\]"; "g").captures[0].string')
+              # Extract the parameter from the comment body
+              PARAMETER=$(echo "$COMMENT_BODY" | sed -n 's/.*\[\(.*\)\].*/\1/p')
               
               if [ -n "$PARAMETER" ]; then
+                # Remove spaces and replace commas with spaces
+                PARAMETER=$(echo "$PARAMETER" | tr -d ' ' | tr ',' ' ')
                 echo "Parameter extracted from comment: $PARAMETER"
                 
                 # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
