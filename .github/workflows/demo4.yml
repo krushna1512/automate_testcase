@@ -39,13 +39,6 @@ jobs:
 
                 # Set the array as an environment variable for the next step
                 echo "COMMENT_ARRAY=${ARRAY[@]}" >> $GITHUB_ENV
-
-                # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
-                curl -X POST \
-                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  -H "Accept: application/vnd.github.v3+json" \
-                  "https://api.github.com/repos/${{ github.repository }}/actions/workflows/print_numbers.yml/dispatches" \
-                  -d '{"ref": "main"}'
               else
                 echo "Array not found in the pull request description."
               fi
