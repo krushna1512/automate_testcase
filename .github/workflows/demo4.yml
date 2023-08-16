@@ -35,13 +35,17 @@ jobs:
                 # Extract the array content and split it into individual elements
                 IFS=',' read -ra ARRAY <<< "${BASH_REMATCH[1]}"
 
-                # Trigger the new workflow using workflow dispatch
+                echo "Array extracted from comment: ${ARRAY[@]}"
+
+                # Set the array as an environment variable for the next step
+                echo "COMMENT_ARRAY=${ARRAY[@]}" >> $GITHUB_ENV
+
+                # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
                 curl -X POST \
                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json" \
-                  "https://api.github.com/repos/${{ github.repository }}/actions/workflows/{workflow_id}/dispatches" \
-                  -d '{"ref": "main", "inputs": {"param1": "'"${ARRAY[0]}"'", "param2": "'"${ARRAY[1]}"'", "param3": "'"${ARRAY[2]}"'", "param4": "'"${ARRAY[3]}"'"}}'
-                
+                  "https://api.github.com/repos/${{ github.repository }}/actions/workflows/print_numbers.yml/dispatches" \
+                  -d '{"ref": "main"}'
               else
                 echo "Array not found in the pull request description."
               fi
