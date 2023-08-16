@@ -38,6 +38,9 @@ jobs:
               # Create a JSON payload with the input parameters
               PAYLOAD="{\"ref\": \"main\", \"inputs\": {\"param1\": \"$PARAMETER\"}}"
 
+              # Debug output to verify parameter
+              echo "Parameter to be passed to second script: $PARAMETER"
+
               # Trigger the "PrintNumbersWorkflow" using workflow_dispatch
               curl -X POST \
                 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
