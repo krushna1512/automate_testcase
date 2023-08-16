@@ -2,7 +2,7 @@ name: PrintNumbersWorkflow
 
 on:
   workflow_run:
-    workflows: ["5th Part"]
+    workflows: ["4th Part"]
     types:
       - completed
 
@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Debug Output (Received Parameter)
         run: |
-          echo "Received Parameter:"
-          echo "COMMENT_PARAMETER=${{ github.event.workflow_run.inputs.param1 }}"
+          echo "Received Workflow Run Event Payload:"
+          echo "${{ toJson(github.event.workflow_run) }}"
 
       - name: Print Parameter
         run: |
-          echo "Received Parameter in Print Numbers step:"
-          echo "COMMENT_PARAMETER=${{ github.event.workflow_run.inputs.param1 }}"
+          PARAMETER="${{ github.event.workflow_run.inputs.param1 }}"
+          echo "Received Parameter in Print Numbers step: $PARAMETER"
