@@ -1,10 +1,8 @@
 name: Print Numbers Workflow
 
 on:
-  workflow_run:
-    workflows: ["5th Part"]
-    types:
-      - completed
+  repository_dispatch:
+    types: [my-event]
 
 jobs:
   print_parameters:
@@ -12,4 +10,7 @@ jobs:
     steps:
       - name: Print Parameters
         run: |
-          echo "Parameter 1: ${{ toJson(workflow_run.outputs) }}"
+          echo "Parameter 1: ${{ github.event.client_payload.param1 }}"
+          echo "Parameter 2: ${{ github.event.client_payload.param2 }}"
+          echo "Parameter 3: ${{ github.event.client_payload.param3 }}"
+          echo "Parameter 4: ${{ github.event.client_payload.param4 }}"
