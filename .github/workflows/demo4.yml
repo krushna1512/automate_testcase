@@ -39,7 +39,7 @@ jobs:
                 curl -X POST \
                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json" \
-                  https://api.github.com/repos/${{ github.repository }}/actions/workflows/PrintNumbersWorkflow/dispatches \
+                  https://api.github.com/repos/${{ github.repository }}/actions/workflows/triggered.yml/dispatches \
                   -d '{
                     "ref": "main",
                     "inputs": {
