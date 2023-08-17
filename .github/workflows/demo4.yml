@@ -35,25 +35,12 @@ jobs:
                 # Extract the array content and split it into individual elements
                 IFS=',' read -ra ARRAY <<< "${BASH_REMATCH[1]}"
                 
-                echo "Array elements:"
-                for element in "${ARRAY[@]}"; do
-                  echo "$element"
-                done
-                
-                # Trigger the new workflow using workflow dispatch
+                # Trigger the new workflow using repository dispatch
                 curl -X POST \
-                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                  -H "Authorization: Bearer ${{ secrets.PAT }}" \
                   -H "Accept: application/vnd.github.v3+json" \
-                  https://api.github.com/repos/${{ github.repository }}/actions/workflows/triggered.yml/dispatches \
-                  -d '{
-                    "ref": "main",
-                    "inputs": {
-                      "param1": "'"${ARRAY[0]}"'",
-                      "param2": "'"${ARRAY[1]}"'",
-                      "param3": "'"${ARRAY[2]}"'",
-                      "param4": "'"${ARRAY[3]}"'"
-                    }
-                  }'
+                  https://api.github.com/repos/${{ github.repository }}/dispatches \
+                  -d '{"event_type": "my-event", "client_payload": {"param1": "'"${ARRAY[0]}"'", "param2": "'"${ARRAY[1]}"'", "param3": "'"${ARRAY[2]}"'", "param4": "'"${ARRAY[3]}"'"}}'
                 
               else
                 echo "Array not found in the pull request description."
