@@ -1,4 +1,4 @@
-name: PrintNumbersWorkflow
+name: Print Numbers Workflow
 
 on:
   workflow_run:
@@ -7,19 +7,12 @@ on:
       - completed
 
 jobs:
-  print_numbers:
+  print_parameters:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Debug Output (Received Parameter)
+      - name: Print Parameters
         run: |
-          PARAMETER="${{ github.event.inputs.param1 }}"
-          echo "Received Parameter in Print Numbers step: $PARAMETER"
-
-          # Split the parameter string into an array
-          IFS=', ' read -r -a PARAMETER_ARRAY <<< "$PARAMETER"
-
-          # Loop through the array and print each element
-          for element in "${PARAMETER_ARRAY[@]}"; do
-            echo "Element: $element"
-          done
+          echo "Parameter 1: ${{ github.event.workflow_run.outputs.param1 }}"
+          echo "Parameter 2: ${{ github.event.workflow_run.outputs.param2 }}"
+          echo "Parameter 3: ${{ github.event.workflow_run.outputs.param3 }}"
+          echo "Parameter 4: ${{ github.event.workflow_run.outputs.param4 }}"
