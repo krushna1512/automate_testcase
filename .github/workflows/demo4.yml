@@ -35,6 +35,11 @@ jobs:
                 # Extract the array content and split it into individual elements
                 IFS=',' read -ra ARRAY <<< "${BASH_REMATCH[1]}"
                 
+                echo "Array elements:"
+                for element in "${ARRAY[@]}"; do
+                  echo "$element"
+                done
+                
                 # Trigger the new workflow using workflow dispatch
                 curl -X POST \
                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
