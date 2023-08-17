@@ -37,7 +37,7 @@ jobs:
                 
                 # Trigger the new workflow using repository dispatch
                 curl -X POST \
-                  -H "Authorization: Bearer ${{ secrets.PAT }}" \
+                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json" \
                   https://api.github.com/repos/${{ github.repository }}/dispatches \
                   -d '{"event_type": "my-event", "client_payload": {"param1": "'"${ARRAY[0]}"'", "param2": "'"${ARRAY[1]}"'", "param3": "'"${ARRAY[2]}"'", "param4": "'"${ARRAY[3]}"'"}}'
