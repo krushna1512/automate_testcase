@@ -84,8 +84,8 @@ body:
   - type: dropdown
     id: MFA
     attributes:
-      label: Agree to create a MFA once you got the access ?
-      description: Select priority
+      label: MFA
+      description: Agree to create a MFA once you got the access ? 
       options:
          - Agree
         
