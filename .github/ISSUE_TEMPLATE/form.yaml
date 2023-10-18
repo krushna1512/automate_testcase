@@ -4,7 +4,7 @@ assignees:
 description: The Requester can use this form for access requests from the SRE team.
 body:
   - type: dropdown
-    id: version3
+    id: RequestType
     attributes:
       label: Request type 
       description: Request type new or Change request
@@ -12,7 +12,7 @@ body:
          - New Request
          - Change Request
   - type: dropdown
-    id: version4
+    id: Department
     attributes:
       label: Department
       description: Mention your Department
@@ -32,7 +32,7 @@ body:
         - Business Process
         - Account
   - type: input
-    id: sample-input
+    id: RequesterName
     attributes:
       label: Requester Name
       description: Enter Name
@@ -40,7 +40,7 @@ body:
     validations:
       required: true
   - type: input
-    id: sample-input1
+    id: RequiredAccess
     attributes:
       label: Required Access
       description: Mention the permissions that you want
@@ -48,7 +48,7 @@ body:
     validations:
       required: true  
   - type: input
-    id: sample-input2
+    id: ReasonForAccess
     attributes:
       label: Reason for access
       description: Mention the Reason for access
@@ -56,7 +56,7 @@ body:
     validations:
       required: true  
   - type: dropdown
-    id: version
+    id: Account
     attributes:
       label: Account 
       description: Select the Account on which access is required
@@ -65,7 +65,7 @@ body:
          - Event Discovery
          - freedomtix
   - type: dropdown
-    id: version1
+    id: Priority
     attributes:
       label: Priority 
       description: Select priority
@@ -78,8 +78,16 @@ body:
     attributes:
       label: Other details
       description: Other details if any
-      # placeholder: Tell us what you see!
+      placeholder: Please elaborate in detail, Why access is required? and for which purpose it will be used?
       value: "more details"
     validations:
-      required: false
-
+      required: true
+  - type: dropdown
+    id: MFA
+    attributes:
+      label: Agree to create a MFA once you got the access ?
+      description: Select priority
+      options:
+         - Agree
+        
+  
