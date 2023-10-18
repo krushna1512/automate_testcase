@@ -14,17 +14,17 @@ body:
       placeholder: Please mention the required access.
     validations:
       required: true
-   - type: dropdown
-     id: version
-     attributes:
-       label: Create a User
-       options:
-          - Done
-          - Pending (Default)
-    - type: dropdown
-       id: version1
-       attributes:
-         label: Add this user in a particular group
-         options:
-            - Done
-            - Pending (Default)
+  - type: dropdown
+    id: version
+    attributes:
+      label: Create a User
+      options:
+         - Done
+         - Pending (Default)
+  - type: dropdown
+    id: version1
+    attributes:
+      label: Add this user in a particular group
+      options:
+         - Done
+         - Pending (Default)
