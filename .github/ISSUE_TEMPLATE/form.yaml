@@ -3,6 +3,34 @@ assignees:
   - krushnasharma15
 description: The Requester can use this form for access requests from the SRE team.
 body:
+  - type: dropdown
+    id: version3
+    attributes:
+      label: Request type 
+      description: Request type new or Change request
+      options:
+         - New Request
+         - Change Request
+  - type: dropdown
+    id: version4
+    attributes:
+      label: Department
+      description: Mention your Department
+      options:
+        - Quality Assurance
+        - Administrative
+        - Management
+        - Product Support
+        - People Experience
+        - Client Coordination
+        - Product Engineering
+        - Design
+        - Product Marketing
+        - Informatics
+        - Site Reliability Engineering
+        - Customer Success
+        - Business Process
+        - Account
   - type: input
     id: sample-input
     attributes:
@@ -17,6 +45,14 @@ body:
       label: Required Access
       description: Mention the permissions that you want
       placeholder: Please mention the required access.
+    validations:
+      required: true  
+  - type: input
+    id: sample-input2
+    attributes:
+      label: Reason for access
+      description: Mention the Reason for access
+      placeholder: Please mention the Reason.
     validations:
       required: true  
   - type: dropdown
