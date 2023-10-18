@@ -19,43 +19,4 @@ body:
       placeholder: Please mention the required access.
     validations:
       required: true  
-  - type: dropdown
-    id: version5
-    attributes:
-      label: Getting approval from Aniket / Vinay
-      description: This step is for SRE Team
-      options:
-         - Waiting for Approval
-         - Got Approval 
-  - type: dropdown
-    id: version
-    attributes:
-      label: Create a User
-      description: This step is for SRE Team
-      options:
-         - Done
-         - Pending 
-  - type: dropdown
-    id: version1
-    attributes:
-      label: Add this user to a particular group
-      description: This step is for SRE Team
-      options:
-         - Done
-         - Pending 
-  - type: dropdown
-    id: version2
-    attributes:
-      label: Share credentials over confidential email
-      description: This step is for SRE Team
-      options:
-         - Done
-         - Pending 
-  - type: dropdown
-    id: version3
-    attributes:
-      label: Enable MFA
-      description: Mark done once this step is completed
-      options:
-         - Done
-         - Pending 
+  
