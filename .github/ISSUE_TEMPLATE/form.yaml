@@ -45,5 +45,5 @@ body:
       # placeholder: Tell us what you see!
       value: "more details"
     validations:
-      required: true
+      required: false
 
