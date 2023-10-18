@@ -28,8 +28,8 @@ body:
          - Campaigns
          - Event Discovery
          - freedomtix
-  - type: dropdown1
-    id: version
+  - type: dropdown
+    id: version1
     attributes:
       label: Priority 
       description: Select priority
