@@ -18,17 +18,20 @@ body:
       description: Mention the permissions that you want
       placeholder: Please mention the required access.
     validations:
-      required: true
+      required: true  
   - type: dropdown
-    id: version4
+    id: version5
     attributes:
-      label: Below Steps will completed from SRE team
-      description: Mark done once this step is completed
+      label: Getting approval from Aniket / Vinay
+      description: This step is for SRE Team
+      options:
+         - Waiting for Approval
+         - Got Approval 
   - type: dropdown
     id: version
     attributes:
       label: Create a User
-      description: Mark done once this step is completed
+      description: This step is for SRE Team
       options:
          - Done
          - Pending 
@@ -36,7 +39,7 @@ body:
     id: version1
     attributes:
       label: Add this user to a particular group
-      description: Mark done once this step is completed
+      description: This step is for SRE Team
       options:
          - Done
          - Pending 
@@ -44,7 +47,7 @@ body:
     id: version2
     attributes:
       label: Share credentials over confidential email
-      description: Mark done once this step is completed
+      description: This step is for SRE Team
       options:
          - Done
          - Pending 
