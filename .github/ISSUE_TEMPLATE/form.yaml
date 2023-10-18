@@ -24,7 +24,7 @@ body:
       description: Mark done once this step is completed
       options:
          - Done
-         - Pending (Default)
+         - Pending 
   - type: dropdown
     id: version1
     attributes:
@@ -32,6 +32,20 @@ body:
       description: Mark done once this step is completed
       options:
          - Done
-         - Pending (Default)
-
-  
+         - Pending 
+  - type: dropdown
+    id: version2
+    attributes:
+      label: Share credentials over confidential email
+      description: Mark done once this step is completed
+      options:
+         - Done
+         - Pending 
+  - type: dropdown
+    id: version2
+    attributes:
+      label: Enable MFA
+      description: Mark done once this step is completed
+      options:
+         - Done
+         - Pending 
