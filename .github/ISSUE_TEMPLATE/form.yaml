@@ -1,19 +1,10 @@
 name: Access Request
 body:
   - type: input
-    id: sample-input
+    id: sample-input 1 
     attributes:
       label: Requester Name
-      description: Enter Name nnjjkk
-      placeholder: Enter Name
+      description: Please enter the requester name
+      placeholder: Enter requester name here
     validations:
-      required: true
-  - type: input
-    id: sample-input1
-    attributes:
-      label: Required Access
-      description: Mention the permissions that you want
-      placeholder: Please mention the required access.
-    validations:
-      required: true
-  
+      required: false
