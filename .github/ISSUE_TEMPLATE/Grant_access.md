@@ -2,15 +2,14 @@
 name: Task - Access Request
 Requester name: 
 Required access: 
-title:  Access Request
+title: Access Request
 Assignees: ['krushnasharma15']
-about: Requester can use this template for access requests from the SRE team.
+about: Template for access requests from the SRE team.
 ---
-
 
 ## Process
 
-- [ ] Create a User 
+- [ ] Create a User
 - [ ] Add this user in a particular group
 - [ ] Add MFA
 - [ ] Share credentials over confidential email
