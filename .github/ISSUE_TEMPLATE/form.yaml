@@ -6,8 +6,14 @@ body:
   - type: input
     id: sample-input
     attributes:
-      label: Sample Input
-      description: Write text here.
-      placeholder: Here will be text
+      label: Requester Name
+      placeholder: Enter Name
+    validations:
+      required: true
+  - type: input
+    id: sample-input1
+    attributes:
+      label: Required Access
+      placeholder: Please mention the required access.
     validations:
       required: true
