@@ -1,8 +1,8 @@
 ---
 name: Task - Access Request
+about: Template for access requests from the SRE team.
 title: Access Request
 assignees: ['krushnasharma15']
-about: Template for access requests from the SRE team.
 ---
 
 ## Process
