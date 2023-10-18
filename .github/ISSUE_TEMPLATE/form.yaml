@@ -4,6 +4,7 @@ body:
     id: sample-input
     attributes:
       label: Requester Name
+      description: Enter Name
       placeholder: Enter Name
     validations:
       required: true
@@ -11,6 +12,7 @@ body:
     id: sample-input1
     attributes:
       label: Required Access
+      description: Mention the permissions that you want
       placeholder: Please mention the required access.
     validations:
       required: true
@@ -18,6 +20,7 @@ body:
     id: version
     attributes:
       label: Create a User
+      description: Mark done once this step is completed
       options:
          - Done
          - Pending (Default)
@@ -25,6 +28,7 @@ body:
     id: version1
     attributes:
       label: Add this user in a particular group
+      description: Mark done once this step is completed
       options:
          - Done
          - Pending (Default)
