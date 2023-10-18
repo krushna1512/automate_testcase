@@ -1,5 +1,5 @@
 name: Access Request
-body: 
+body:
   - type: input
     id: sample-input
     attributes:
@@ -27,7 +27,7 @@ body:
   - type: dropdown
     id: version1
     attributes:
-      label: Add this user in a particular group
+      label: Add this user to a particular group
       description: Mark done once this step is completed
       options:
          - Done
