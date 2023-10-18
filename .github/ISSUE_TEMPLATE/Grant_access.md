@@ -1,9 +1,9 @@
 ---
 name: Task - Access Request
-Requester name: 
-Required access: 
+requester name: 
+required access: 
 title: Access Request
-Assignees: ['krushnasharma15']
+assignees: ['krushnasharma15']
 about: Template for access requests from the SRE team.
 ---
 
