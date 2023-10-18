@@ -1,0 +1,13 @@
+name: Sample form
+description: Create an issue.
+assignees:
+  - krushnasharma15
+body: 
+  - type: input
+    id: sample-input
+    attributes:
+      label: Sample Input
+      description: Write text here.
+      placeholder: Here will be text
+    validations:
+      required: true
