@@ -19,4 +19,31 @@ body:
       placeholder: Please mention the required access.
     validations:
       required: true  
-  
+  - type: dropdown
+    id: version
+    attributes:
+      label: Account 
+      description: Select the Account on which access is required
+      options:
+         - Campaigns
+         - Event Discovery
+         - freedomtix
+  - type: dropdown1
+    id: version
+    attributes:
+      label: Priority 
+      description: Select priority
+      options:
+         - low
+         - medium
+         - high
+  - type: textarea
+    id: Other
+    attributes:
+      label: Other details
+      description: Other details if any
+      # placeholder: Tell us what you see!
+      value: "more details"
+    validations:
+      required: true
+
