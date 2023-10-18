@@ -77,8 +77,7 @@ body:
     id: Other
     attributes:
       label: Other details
-      description: Other details if any
-      placeholder: Please elaborate in detail, Why access is required? and for which purpose it will be used?
+      description: Please elaborate in detail, Why access is required? and for which purpose it will be used?
       value: "more details"
     validations:
       required: true
