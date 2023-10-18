@@ -42,7 +42,7 @@ body:
          - Done
          - Pending 
   - type: dropdown
-    id: version2
+    id: version3
     attributes:
       label: Enable MFA
       description: Mark done once this step is completed
